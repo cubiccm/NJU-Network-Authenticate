@@ -1,0 +1,8 @@
+opencv_python
+tensorflow
+requests
+beautifulsoup4
+numpy
+Pillow
+pycryptodome
+PyYAML

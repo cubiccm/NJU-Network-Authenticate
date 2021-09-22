@@ -1,0 +1,6 @@
+requests
+beautifulsoup4
+numpy
+Pillow
+pycryptodome
+PyYAML
