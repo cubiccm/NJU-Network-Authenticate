@@ -2,6 +2,14 @@
 
 登录南京大学校园网的脚本，支持验证码识别。
 
+注：现时仍可使用原本的入口登录，只需
+
+```shell
+curl -d 'username=学号&password=统一身份认证密码' p.nju.edu.cn/portal_io/login
+```
+
+即可。
+
 登录部分参考：https://github.com/forewing/nju-health-checkin
 
 验证码部分（muggle-ocr）使用：https://github.com/kerlomz/captcha_trainer
