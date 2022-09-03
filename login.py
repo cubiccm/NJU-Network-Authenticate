@@ -15,7 +15,7 @@ else:
   username = os.environ['NJU_USERNAME']
   password = os.environ['NJU_PASSWORD']
 
-url = "https://authserver.nju.edu.cn/authserver/login?service=http%3A%2F%2Fp.nju.edu.cn%2Fcas%2F"
+url = "https://authserver.nju.edu.cn/authserver/login?service=http%3A%2F%2Fp.nju.edu.cn%2Fcas%2F&login_type=mobileLogin"
 
 # Reference: https://github.com/forewing/nju-health-checkin/blob/master/checkin.py
 def encryptAES(data, key):
@@ -31,14 +31,19 @@ def getInput(soup, id=None, name=None):
     return soup.find("input", {"name": name})['value']
 
 s = requests.Session()
+s.headers.update({'User-Agent': 'iPhone cpdaily'})
 r = s.get(url)
 try:
   soup = BeautifulSoup(r.text, 'html.parser')
+  salt_start = r.text.index("pwdDefaultEncryptSalt") + len("pwdDefaultEncryptSalt") + 4
+  salt_end = r.text.index("\";", salt_start)
+  salt = r.text[salt_start : salt_end]
+
   data = {
     'username': username,
-    'password': encryptAES(password, getInput(soup, id="pwdDefaultEncryptSalt")),
+    'password': encryptAES(password, salt),
     'lt': getInput(soup, name="lt"),
-    'dllt': "userNamePasswordLogin",
+    'dllt': "mobileLogin",
     'execution': getInput(soup, name="execution"),
     '_eventId': getInput(soup, name="_eventId"),
     'rmShown': getInput(soup, name="rmShown"),
